@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/VERSION/css/all.min.css"
+    />
+
+    <title>To Do list</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="newtask">
+        <input type="text" placeholder="Add task..." />
+        <button id="push">Add</button>
+      </div>
+      <div class="tasks">
+        
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+        let inputField = document.querySelector("#newtask input");
+      
+        document.querySelector("#push").onclick = function () {
+        if (inputField.value.length == 0) {
+          alert("Please Enter a Task");
+        } else {
+          document.querySelector(".tasks").innerHTML += `
+          <div class="tasksContent">
+            <div>
+          <span id="taskname"> ${
+            inputField.value
+          } </span>
+        </div>
+
+        <div>
+          <img src="check-circle 1.svg" class="check" alt="">
+          <img src="pencil-square 1.svg" class="edit" alt="">
+          <img src="trash 1.svg" class="delete" alt="">
+        </div>
+        </div>
+            `;
+
+            inputField.value = "";
+
+
+            let deleteTask = document.querySelectorAll(".delete")
+            deleteTask.forEach(del => {
+                del.addEventListener("click", deleteTasks);
+            });
+
+            let edit = document.querySelectorAll(".edit")
+            edit.forEach(edt => {
+                edt.addEventListener("click", editTasks);
+            });
+
+            let check = document.querySelectorAll(".check")
+            check.forEach(text => {
+                text.addEventListener("click", checkTasks);
+            });
+        }
+      };
+
+      function deleteTasks(event){
+        let taskDelete = event.target.closest(".tasksContent")
+        taskDelete.remove()
+      }
+
+      function checkTasks(event){
+        let taskCheck = event.target.closest(".tasksContent")
+        let taskToCheck = taskCheck.querySelector("span")
+
+        taskCheck.style.textDecoration = "line-through";
+        taskCheck.style.color = "green";
+      }
+
+    
+
+      function editTasks(event){
+        let taskEdit = event.target.closest(".tasksContent")
+        // let taskToEdit = parseInt(event.target.parentElement.querySelector('input[type"checkbox"]'))
+        let currentTask = taskEdit.querySelector("span").textContent;
+        let newTask = prompt("Edit Your Task", currentTask)
+
+        if(newTask !== null && newTask.trim() !== ""){
+            taskEdit.querySelector('span').textContent = newTask;
+        }
+      }
+
+    </script>
+  </body>
+</html>
